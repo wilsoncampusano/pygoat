@@ -39,7 +39,6 @@ class NewVisitor(unittest.TestCase):
 # 1: Buy a peacock feathers as an item in a to-do list
 		inputbox.send_keys(Keys.ENTER)
 		
-		self.check_for_row_in_list_table('1: Buy peacock feathers')
 #there is still a textbox iviting her to add another item. she
 #enter "use peacock feathers to make fly"
 #the page updates again, and now shos both item on her list
@@ -47,6 +46,9 @@ class NewVisitor(unittest.TestCase):
 		inputbox.send_keys('Use peacock feathers to make a fly')
 		inputbox.send_keys(Keys.ENTER)
 
+		import time
+		time.sleep(3)
+		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make fly')
 
 		self.fail('Finish the test!!')
