@@ -28,7 +28,7 @@ class HomePageTest(TestCase):
 		new_item = Item.objects.first()
 
 		self.assertEqual(new_item.text, 'A new list item')
-		
+
 		self.assertIn('A new list item', response.content.decode())
 
 		expected_html = render_to_string('home.html', {'new_item_text': 'A new list item'})
@@ -56,5 +56,8 @@ class HomePageTest(TestCase):
 		self.assertEqual(first_saved_item.text, first_item_text)
 		self.assertEqual(second_saved_item.text, second_item_text)
 
-
+	def test_home_page_only_saves_items_when_necessary(self):
+		request = HttpRequest()
+		home_page(request)
+		self.assertEqual(Item.objects.count(), 0)
 
