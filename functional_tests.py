@@ -48,6 +48,7 @@ class NewVisitor(unittest.TestCase):
 
 		import time
 		time.sleep(3)
+		
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 		self.check_for_row_in_list_table('2: Use peacock feathers to make fly')
 
