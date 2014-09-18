@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase 
+import unittest
 
-class NewVisitor(LiveServerTestCase):
+class NewVisitor(unittest.TestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -14,7 +14,6 @@ class NewVisitor(LiveServerTestCase):
 	def check_for_row_in_list_table(self, row_text):
 		table = self.browser.find_element_by_id('id_list_table')
 		rows = table.find_elements_by_tag_name('tr')
-		print(rows)
 		self.assertIn(row_text, [row.text for row in rows])
 
 	def test_can_start_a_list_and_retrive_it_latter(self):
@@ -22,7 +21,7 @@ class NewVisitor(LiveServerTestCase):
 #edit has hear about a cool new online to-do app. she goes
 #to check out its homepage
 		
-		self.browser.get(self.live_server_url)
+		self.browser.get('http://localhost:8000')
 		
 #she notice the page title and header mention to-do lists
 		self.assertIn('To-Do', self.browser.title)
@@ -50,8 +49,8 @@ class NewVisitor(LiveServerTestCase):
 		import time
 		time.sleep(3)
 		
-		self.check_for_row_in_list_table(u'1: Buy peacock feathers')
-		self.check_for_row_in_list_table(u'2: Use peacock feathers to make a fly')
+		self.check_for_row_in_list_table('1: Buy peacock feathers')
+		self.check_for_row_in_list_table('2: Use peacock feathers to make fly')
 
 		self.fail('Finish the test!!')
 #edit wonder where the site will remember her list. then she sees that the site has generated a unique url
