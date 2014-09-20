@@ -24,7 +24,7 @@ class NewVisitor(LiveServerTestCase):
 		
 		self.browser.get(self.live_server_url)
 		import time
-		time.sleep(5)
+		time.sleep(2)
 #she notice the page title and header mention to-do lists
 		self.assertIn('To-Do', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
@@ -43,6 +43,7 @@ class NewVisitor(LiveServerTestCase):
 
 		edith_list_url = self.browser.current_url
 		self.assertRegex(edith_list_url, '/lists/.+')
+		time.sleep(3)
 		self.check_for_row_in_list_table('1: Buy peacock feathers')	
 		
 #there is still a textbox iviting her to add another item. she
@@ -53,7 +54,7 @@ class NewVisitor(LiveServerTestCase):
 		inputbox.send_keys(Keys.ENTER)
 		
 		self.check_for_row_in_list_table('1: Buy peacock feathers')	
-		self.check_for_row_in_list_table('2: Use peacock feathers to make fly')
+		self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
 	
 #edit wonder where the site will remember her list. then she sees that the site has generated a unique url

@@ -9,10 +9,14 @@ from lists.views import home_page #1
 class HomePageTest(TestCase):
 
 	def assert_that_redirect_to_home(self, response):
+		''' helper method that test browser is in rest page'''
+
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(response['location'], '/')
 
 	def assert_that_redirects_to_lists_page(self, response):
+		''' helper method for redirects to lists page '''
+
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
 
@@ -46,6 +50,28 @@ class HomePageTest(TestCase):
 
 		self.assert_that_redirects_to_lists_page(response)
 	
+	def test_home_page_only_saves_items_when_necessary(self):
+		request = HttpRequest()
+		home_page(request)
+		self.assertEqual(Item.objects.count(), 0)
+
+class ListViewTest(TestCase):
+
+	def test_uses_list_template(self):
+		response = self.client.get('/lists/the-only-list-in-the-world/')
+		self.assertTemplateUsed(response, 'list.html')
+
+	def test_displays_all_items(self):
+		Item.objects.create(text='itemey 1')
+		Item.objects.create(text='itemey 2')			
+
+		response = self.client.get('/lists/the-only-list-in-the-world/')
+
+		self.assertContains(response, 'itemey 1')
+		self.assertContains(response, 'itemey 2')
+
+class ItemModelTest(TestCase):
+
 	def test_saving_and_retrieving_items(self):
 
 		first_item_text = 'The first (ever) list item'
@@ -67,19 +93,3 @@ class HomePageTest(TestCase):
 
 		self.assertEqual(first_saved_item.text, first_item_text)
 		self.assertEqual(second_saved_item.text, second_item_text)
-
-	def test_home_page_only_saves_items_when_necessary(self):
-		request = HttpRequest()
-		home_page(request)
-		self.assertEqual(Item.objects.count(), 0)
-
-class ListViewTest(TestCase):
-
-	def test_displays_all_items(self):
-		Item.objects.create(text='itemey 1')
-		Item.objects.create(text='itemey 2')			
-		print(Item.objects.all())
-		response = self.client.get('/lists/the-only-list-in-the-world/')
-
-		self.assertContains(response, 'itemey 1')
-		self.assertContains(response, 'itemey 2')
