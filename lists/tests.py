@@ -12,6 +12,10 @@ class HomePageTest(TestCase):
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(response['location'], '/')
 
+	def assert_that_redirects_to_lists_page(self, response):
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
+
 	def test_root_url_resolves_to_home_page_view(self):
 		found = resolve('/') #2
 		self.assertEqual(found.func, home_page) #3
@@ -40,7 +44,7 @@ class HomePageTest(TestCase):
 		
 		response = home_page(request)
 
-		self.assert_that_redirect_to_home(response)
+		self.assert_that_redirects_to_lists_page(response)
 	
 	def test_saving_and_retrieving_items(self):
 
@@ -69,12 +73,13 @@ class HomePageTest(TestCase):
 		home_page(request)
 		self.assertEqual(Item.objects.count(), 0)
 
-	def test_home_page_displays_all_list_items(self):
+class ListViewTest(TestCase):
+
+	def test_displays_all_items(self):
 		Item.objects.create(text='itemey 1')
-		Item.objects.create(text='itemey 2')
+		Item.objects.create(text='itemey 2')			
+		print(Item.objects.all())
+		response = self.client.get('/lists/the-only-list-in-the-world/')
 
-		request = HttpRequest()
-		response = home_page(request)
-
-		self.assertIn('itemey 1', response.content.decode())
-		self.assertIn('itemey 2', response.content.decode())
+		self.assertContains(response, 'itemey 1')
+		self.assertContains(response, 'itemey 2')
