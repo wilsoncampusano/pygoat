@@ -8,6 +8,10 @@ from lists.views import home_page #1
 
 class HomePageTest(TestCase):
 
+	def assert_that_redirect_to_home(self, response):
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response['location'], '/')
+
 	def test_root_url_resolves_to_home_page_view(self):
 		found = resolve('/') #2
 		self.assertEqual(found.func, home_page) #3
@@ -36,8 +40,7 @@ class HomePageTest(TestCase):
 		
 		response = home_page(request)
 
-		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/')
+		self.assert_that_redirect_to_home(response)
 	
 	def test_saving_and_retrieving_items(self):
 
