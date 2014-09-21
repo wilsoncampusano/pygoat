@@ -114,7 +114,6 @@ class NewItemTest(TestCase):
 		self.assertEqual(new_item.text, 'A new item for an existing list')
 		self.assertEqual(new_item.list, correct_list)
 		
-
 	def test_redirects_to_list_view(self):
 		correct_list = List.objects.create()
 		other_list = List.objects.create()
