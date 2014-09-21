@@ -1,7 +1,8 @@
 from django.db import models
 
 class List(models.Model):
-	pass
+	def __str__(self):
+		return '{List %d}'%(self.id)
 
 class Item(models.Model):
 	text = models.TextField(default='')
