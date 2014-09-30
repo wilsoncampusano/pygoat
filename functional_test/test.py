@@ -1,9 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
-from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import sys
+
 
 class NewVisitor(StaticLiveServerTestCase):
 
@@ -113,5 +113,6 @@ class NewVisitor(StaticLiveServerTestCase):
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width']/ 2,
 		 512, delta=5)
-if __name__=='__main__':	
+
+if __name__ == '__main__':
 	unittest.main(warnings = 'ignore')
