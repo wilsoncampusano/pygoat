@@ -5,7 +5,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import sys
 
 
-class CustomFuntionlTest:
+class FunctionalTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         for arg in sys.argv:
@@ -28,7 +28,7 @@ class CustomFuntionlTest:
         self.browser.quit()
 
 
-class NewVisitor(StaticLiveServerTestCase, CustomFuntionlTest):
+class NewVisitor(FunctionalTest):
 
 	def check_for_row_in_list_table(self, row_text):
 		table = self.browser.find_element_by_id('id_list_table')
@@ -100,7 +100,7 @@ class NewVisitor(StaticLiveServerTestCase, CustomFuntionlTest):
 		self.assertIn('Buy milk', page_text)
 
 
-class StylesFuntionalTest(StaticLiveServerTestCase, CustomFuntionlTest):
+class StylesFunctionalTest(FunctionalTest):
 
     def test_layout_and_styling(self):
 		#edith goes to the home page
