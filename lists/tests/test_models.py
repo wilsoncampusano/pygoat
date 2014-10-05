@@ -1,5 +1,6 @@
 from django.test import TestCase
 from lists.models import Item, List
+from django.core.exceptions import ValidationError
 
 
 class ListAndItemModelTest(TestCase):
@@ -34,6 +35,13 @@ class ListAndItemModelTest(TestCase):
         self.assertEqual(second_saved_item.text, second_item_text)
         self.assertEqual(second_saved_item.list, list_)
 
+    def test_cannot_save_empty_list_item(self):
+        list_ = List.objects.create()
+        item = Item(text='', list=list_)
+        with self.assertRaises(ValidationError):
+            item.save()
+            item.full_clean()
+
 
 class NewListTest(TestCase):
     def test_home_page_can_save_a_POST_request(self):
@@ -63,6 +71,6 @@ class NewItemTest(TestCase):
 
     def test_redirects_to_list_view(self):
         correct_list = List.objects.create()
-        response = self.client.post('/lists/%d/add_item' % (correct_list.id),
+        response = self.client.post('/lists/%d/add_item' % correct_list.id,
                                     data={'item_text': 'A new item for an existing list'})
         self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
