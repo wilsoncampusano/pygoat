@@ -7,7 +7,7 @@ class ItemValidationTest(FunctionalTest):
         self.browser.get(self.server_url)
         self.browser.find_element_by_id('id_new_item').send_keys('\n')
 
-        error = self.browser.find_element_by_id('.has-error')
+        error = self.browser.find_element_by_class_name('has-error')
 
         self.assertEqual(error.text, "You can't have an empty list item")
 
@@ -19,7 +19,7 @@ class ItemValidationTest(FunctionalTest):
 
         self.check_for_row_in_list_table('1: Buy milk')
 
-        error = self.browser.find_element_by_id('.has-error')
+        error = self.browser.find_element_by_class_name('has-error')
 
         self.assertEqual(error.text, "You can't have an empty list item")
 
