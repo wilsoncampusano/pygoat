@@ -35,5 +35,5 @@ def new_list(request):
         list_.delete()
         error = EXPECTED_ERROR_
         return render(request, 'home.html', {"error": error})
-    return redirect('/lists/%d/' % (list_.id,))
+    return redirect('view_list', list_.id)
 
