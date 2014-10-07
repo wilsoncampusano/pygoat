@@ -1,6 +1,7 @@
 from django import forms
 from lists.models import Item
-from lists.views import EXPECTED_ERROR_
+
+EXPECTED_ERROR_ = "You can't have an empty list item"
 
 
 class ItemForm(forms.models.ModelForm):

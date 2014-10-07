@@ -1,6 +1,5 @@
 from django.test import TestCase
-from lists.forms import ItemForm
-from lists.views import EXPECTED_ERROR_
+from lists.forms import ItemForm, EXPECTED_ERROR_
 
 
 class ItemFormTest(TestCase):
